@@ -1,0 +1,26 @@
+{
+  "extName": {
+    "message": "Plainshot — Full Page Screenshot",
+    "description": "Extension name shown in the browser and in the store listing."
+  },
+  "extDescription": {
+    "message": "Capture an entire web page as a single image in one click. Fast, seamless, and fully offline.",
+    "description": "Short store description."
+  },
+  "actionTitle": {
+    "message": "Capture full page (Alt+Shift+P)",
+    "description": "Tooltip on the toolbar button."
+  },
+  "cmdCaptureFullPage": {
+    "message": "Capture the full page",
+    "description": "Keyboard shortcut description."
+  },
+  "errRestrictedPage": {
+    "message": "This page cannot be captured by extensions.",
+    "description": "Shown when the tab is a browser internal page."
+  },
+  "errCaptureFailed": {
+    "message": "Capture failed.",
+    "description": "Generic capture failure."
+  }
+}

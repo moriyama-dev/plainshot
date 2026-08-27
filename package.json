@@ -1,0 +1,27 @@
+{
+  "name": "plainshot",
+  "version": "0.1.0",
+  "description": "Full page screenshot extension for Microsoft Edge and Google Chrome.",
+  "private": true,
+  "license": "MIT",
+  "author": "Yoshiro Moriyama <7315004+moriyama-dev@users.noreply.github.com>",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "icons": "node scripts/make-icons.mjs",
+    "zip": "node scripts/zip.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src scripts",
+    "format": "prettier --write \"**/*.{ts,js,mjs,json,md}\""
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.287",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.17.0",
+    "globals": "^17.11.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  }
+}

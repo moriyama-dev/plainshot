@@ -1,0 +1,20 @@
+{
+  "extName": {
+    "message": "Plainshot — ページ全体のスクリーンショット"
+  },
+  "extDescription": {
+    "message": "ウェブページ全体をワンクリックで1枚の画像として保存します。高速、継ぎ目なし、通信は一切ありません。"
+  },
+  "actionTitle": {
+    "message": "ページ全体をキャプチャ (Alt+Shift+P)"
+  },
+  "cmdCaptureFullPage": {
+    "message": "ページ全体をキャプチャ"
+  },
+  "errRestrictedPage": {
+    "message": "このページは拡張機能からキャプチャできません。"
+  },
+  "errCaptureFailed": {
+    "message": "キャプチャに失敗しました。"
+  }
+}
