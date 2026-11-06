@@ -35,7 +35,10 @@ export function scrollToY(y: number): number {
   return window.scrollY;
 }
 
-/** Hides scrollbars and sticky elements are left alone; only scrolling is undone. */
+/**
+ * Walks the page once so lazy loaders fill in, then returns to where the user
+ * was. Only the scroll position is changed; sticky elements are left alone.
+ */
 export async function preloadLazyContent(
   stepDelayMs: number,
   maxSteps: number,
@@ -76,9 +79,7 @@ export async function preloadLazyContent(
     Array.from(document.images)
       .filter((img) => !img.complete)
       .slice(0, 200)
-      .map((img) =>
-        img.decode().catch(() => undefined),
-      ),
+      .map((img) => img.decode().catch(() => undefined)),
   );
 
   window.scrollTo(originalX, originalY);

@@ -26,7 +26,7 @@ function insideRoundedRect(x, y, left, top, width, height, radius) {
 
 function shadeAt(x, y) {
   // Coordinates are normalised to a 1x1 square so one description serves every size.
-  if (insideRoundedRect(x, y, 0.30, 0.16, 0.40, 0.62, 0.05)) return PAGE;
+  if (insideRoundedRect(x, y, 0.3, 0.16, 0.4, 0.62, 0.05)) return PAGE;
   if (insideRoundedRect(x, y, 0.36, 0.82, 0.28, 0.06, 0.03)) return ACCENT;
   if (insideRoundedRect(x, y, 0.03, 0.03, 0.94, 0.94, 0.22)) return BACKGROUND;
   return null;
@@ -112,9 +112,20 @@ function encodePng(size, pixels) {
   ]);
 }
 
-mkdirSync(OUT_DIR, { recursive: true });
-for (const size of SIZES) {
-  const file = join(OUT_DIR, `icon${size}.png`);
-  writeFileSync(file, encodePng(size, renderRgba(size)));
-  console.log(`icon${size}.png`);
+/** The icon as a PNG at any size, for the store images. */
+export function iconPng(size) {
+  return encodePng(size, renderRgba(size));
+}
+
+export function writeIcons() {
+  mkdirSync(OUT_DIR, { recursive: true });
+  for (const size of SIZES) {
+    const file = join(OUT_DIR, `icon${size}.png`);
+    writeFileSync(file, iconPng(size));
+    console.log(`icon${size}.png`);
+  }
+}
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  writeIcons();
 }

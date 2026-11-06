@@ -22,5 +22,13 @@
   "errCaptureFailed": {
     "message": "Capture failed.",
     "description": "Generic capture failure."
+  },
+  "menuReportProblem": {
+    "message": "Report a problem",
+    "description": "Toolbar button context menu: opens a pre-filled GitHub issue."
+  },
+  "menuGitHub": {
+    "message": "GitHub",
+    "description": "Toolbar button context menu: opens the source repository."
   }
 }

@@ -3,3 +3,5 @@ dist/
 release/
 *.zip
 .env
+.cache/
+CLAUDE.md

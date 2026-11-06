@@ -1,11 +1,14 @@
 import { captureWithDebugger } from '../capture/cdp-capture.js';
 import { preloadLazyContent } from '../capture/injected.js';
 import { captureByScrolling } from '../capture/scroll-capture.js';
+import { REPOSITORY_URL, buildReportUrl, describeBrowser } from '../lib/feedback.js';
 import { buildFilename } from '../lib/filename.js';
 import { runInPage } from '../lib/inject.js';
 import type { CaptureResult, PageMetrics } from '../types.js';
 
 const CAPTURE_COMMAND = 'capture-full-page';
+const MENU_REPORT = 'report-problem';
+const MENU_GITHUB = 'open-github';
 
 // Browser-owned pages never allow script injection or tab capture.
 const RESTRICTED_SCHEME = /^(chrome|edge|about|devtools|view-source|chrome-extension):/i;
@@ -96,4 +99,45 @@ chrome.commands.onCommand.addListener((command, tab) => {
   void chrome.tabs.query({ active: true, currentWindow: true }).then(([active]) => {
     if (active) void capture(active);
   });
+});
+
+// "Report a problem" and "GitHub" live on the toolbar button's right-click
+// menu, since Plainshot has no other UI to put them in.
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.removeAll(() => {
+    chrome.contextMenus.create({
+      id: MENU_REPORT,
+      title: chrome.i18n.getMessage('menuReportProblem'),
+      contexts: ['action'],
+    });
+    chrome.contextMenus.create({
+      id: MENU_GITHUB,
+      title: chrome.i18n.getMessage('menuGitHub'),
+      contexts: ['action'],
+    });
+  });
+});
+
+interface NavigatorWithUAData extends Navigator {
+  userAgentData?: { brands: { brand: string; version: string }[] };
+}
+
+export async function reportUrl(now = new Date()): Promise<string> {
+  const platform = await chrome.runtime.getPlatformInfo();
+  const nav = navigator as NavigatorWithUAData;
+  return buildReportUrl({
+    version: chrome.runtime.getManifest().version,
+    browser: describeBrowser(nav.userAgentData?.brands, navigator.userAgent),
+    os: `${platform.os} (${platform.arch})`,
+    language: chrome.i18n.getUILanguage(),
+    now,
+  });
+}
+
+chrome.contextMenus.onClicked.addListener((info) => {
+  if (info.menuItemId === MENU_GITHUB) {
+    void chrome.tabs.create({ url: REPOSITORY_URL });
+  } else if (info.menuItemId === MENU_REPORT) {
+    void reportUrl().then((url) => chrome.tabs.create({ url }));
+  }
 });

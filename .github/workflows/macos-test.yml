@@ -1,0 +1,43 @@
+# Builds Plainshot and runs the end-to-end capture test in a real Chrome on
+# GitHub's standard macOS runner. Run it before every release.
+#
+# Manual or tag push only, read-only token, no secrets.
+
+name: macOS test
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+
+      - name: Install Chrome for Testing
+        run: |
+          path=$(npx @puppeteer/browsers install chrome@stable --path "$RUNNER_TEMP/browsers" --format '{{path}}')
+          echo "CHROME_PATH=$path" >> "$GITHUB_ENV"
+          "$path" --version
+
+      - run: npm run e2e
+
+      - run: npm run zip

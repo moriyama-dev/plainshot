@@ -16,5 +16,11 @@
   },
   "errCaptureFailed": {
     "message": "キャプチャに失敗しました。"
+  },
+  "menuReportProblem": {
+    "message": "問題を報告"
+  },
+  "menuGitHub": {
+    "message": "GitHub"
   }
 }

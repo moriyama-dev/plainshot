@@ -31,4 +31,9 @@ export default [
       globals: { ...globals.node },
     },
   },
+  {
+    // Callbacks passed to worker.evaluate() run inside the extension.
+    files: ['scripts/e2e.mjs'],
+    languageOptions: { globals: { chrome: 'readonly' } },
+  },
 ];

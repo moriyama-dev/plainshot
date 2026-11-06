@@ -25,11 +25,14 @@
     "service_worker": "background/service-worker.js",
     "type": "module"
   },
-  "permissions": ["activeTab", "scripting", "debugger", "downloads", "storage"],
+  "permissions": ["activeTab", "scripting", "debugger", "downloads", "contextMenus"],
   "commands": {
     "capture-full-page": {
-      "suggested_key": { "default": "Alt+Shift+P" },
+      "suggested_key": {
+        "default": "Alt+Shift+P"
+      },
       "description": "__MSG_cmdCaptureFullPage__"
     }
-  }
+  },
+  "homepage_url": "https://github.com/moriyama-dev/plainshot"
 }

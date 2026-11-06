@@ -10,7 +10,8 @@ const PUBLIC = join(ROOT, 'public');
 const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
 
 if (!existsSync(join(PUBLIC, 'icons', 'icon128.png'))) {
-  await import('./make-icons.mjs');
+  const { writeIcons } = await import('./make-icons.mjs');
+  writeIcons();
 }
 
 rmSync(DIST, { recursive: true, force: true });
