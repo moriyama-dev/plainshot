@@ -97,17 +97,27 @@ try {
     if (message.type() === 'error') errors.push(message.text());
   });
 
-  // The menu entries are created on install; an invalid id or a missing
-  // permission would leave chrome.runtime.lastError set and nothing else.
-  const menuCheck = await worker.evaluate(
-    () =>
-      new Promise((resolve) => {
-        chrome.contextMenus.update('report-problem', {}, () =>
-          resolve(chrome.runtime.lastError?.message ?? 'ok'),
-        );
-      }),
-  );
-  if (menuCheck !== 'ok') throw new Error(`context menu missing: ${menuCheck}`);
+  // The menu entries are created asynchronously once the extension is
+  // installed, so give them a moment. An invalid id or a missing permission
+  // would leave chrome.runtime.lastError set and nothing else.
+  const menuMissing = (id) =>
+    worker.evaluate(
+      (menuId) =>
+        new Promise((resolve) => {
+          chrome.contextMenus.update(menuId, {}, () =>
+            resolve(chrome.runtime.lastError?.message ?? ''),
+          );
+        }),
+      id,
+    );
+  for (const id of ['report-problem', 'open-github']) {
+    let problem = await menuMissing(id);
+    for (let attempt = 0; attempt < 25 && problem; attempt += 1) {
+      await new Promise((resolve) => setTimeout(resolve, 200));
+      problem = await menuMissing(id);
+    }
+    if (problem) throw new Error(`context menu entry ${id} missing: ${problem}`);
+  }
   console.log('context menu entries present');
 
   const seen = new Set();
