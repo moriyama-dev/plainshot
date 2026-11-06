@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 — unreleased
+## 0.1.0 — 2026-11-06
 
 - Capture the full page in one pass, with an automatic scroll-and-stitch
   fallback for pages taller than 16,384 px or tabs with DevTools open.

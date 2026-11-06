@@ -9,6 +9,57 @@ the extension makes no network requests of any kind.
 Works in Microsoft Edge and Google Chrome (version 116 or newer) on Windows,
 macOS and Linux.
 
+## Install
+
+Plainshot is not in the Edge Add-ons or Chrome Web Store yet. Until it is,
+install it from GitHub as an unpacked extension. Once it is in a store, the
+browser will keep it up to date by itself.
+
+### The easy way (Windows, macOS and Ubuntu)
+
+1. Download `plainshot.zip` from the
+   [latest release](https://github.com/moriyama-dev/plainshot/releases/latest).
+2. Unzip it into a folder that you will keep, for example `plainshot` in your
+   home folder.
+   - **Windows:** right-click the file → **Extract All...**
+   - **macOS:** double-click the file in Finder.
+   - **Ubuntu:** right-click the file in Files → **Extract**.
+3. Open `edge://extensions` (Edge) or `chrome://extensions` (Chrome).
+4. Turn on **Developer mode**, click **Load unpacked** and choose the folder.
+5. Pin the Plainshot button to the toolbar from the extensions (puzzle piece)
+   menu.
+
+Leave the folder where it is: the browser loads Plainshot from it every time it
+starts.
+
+### Install or update with one command
+
+These commands download the latest release into the `plainshot` folder in your
+home folder. Run the same command again to update, then click **Reload** on
+the Plainshot card in `edge://extensions` or `chrome://extensions`. The folder
+stays the same, so your keyboard shortcut is kept.
+
+macOS and Ubuntu (Terminal):
+
+```sh
+curl -fsSL -o /tmp/plainshot.zip https://github.com/moriyama-dev/plainshot/releases/latest/download/plainshot.zip && rm -rf ~/plainshot && mkdir ~/plainshot && unzip -q /tmp/plainshot.zip -d ~/plainshot
+```
+
+On Ubuntu, install `unzip` first if the command is missing:
+`sudo apt install unzip`.
+
+Windows (PowerShell):
+
+```powershell
+Invoke-WebRequest https://github.com/moriyama-dev/plainshot/releases/latest/download/plainshot.zip -OutFile "$env:TEMP\plainshot.zip"; Remove-Item "$HOME\plainshot" -Recurse -Force -ErrorAction SilentlyContinue; Expand-Archive "$env:TEMP\plainshot.zip" "$HOME\plainshot"
+```
+
+The first time, load the folder with **Load unpacked** as in step 4 above.
+
+To hear about new versions, click **Watch → Custom → Releases** on this
+repository. Each release also has the file under a versioned name,
+`plainshot-<version>.zip`.
+
 ## How it works
 
 Plainshot captures in one pass through the browser's own rendering pipeline, so
